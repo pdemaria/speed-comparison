@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>How much speed do you need?</title>
+
+<style>
+/**
+ * Page
+ */
+.progressBars {
+	margin:0 auto;
+	padding-top:15px;
+	width:100%;
+}
+
+.progressContainer {
+	background:#c2c0c1;
+	background:-moz-linear-gradient(top,#c2c0c1 0%,#ebebec 50%,#c2c0c1 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#c2c0c1),color-stop(50%,#ebebec),color-stop(100%,#c2c0c1));
+	background:-webkit-linear-gradient(top,#c2c0c1 0%,#ebebec 50%,#c2c0c1 100%);
+	background:-o-linear-gradient(top,#c2c0c1 0%,#ebebec 50%,#c2c0c1 100%);
+	background:-ms-linear-gradient(top,#c2c0c1 0%,#ebebec 50%,#c2c0c1 100%);
+	background:linear-gradient(to bottom,#c2c0c1 0%,#ebebec 50%,#c2c0c1 100%);
+	border-radius:8px;
+	background-size:100% 38px;
+	height:38px;
+	margin-bottom:14px;
+	position:relative;
+	width:100%;
+	border:2px solid #BEC0C2;
+	z-index:0;
+}
+
+.bar {
+	height:34px;
+	left:0;
+	position:absolute;
+	top:0;
+	width:0;
+	max-width:100%;
+	z-index:2;
+	border-radius:8px;
+}
+
+.bar span {
+	display:none;
+}
+
+span.speed {
+	color:#03345F;
+	font-size:13px;
+	left:8px;
+	line-height:35px;
+	position:absolute;
+	top:2px;
+	z-index:10;
+}
+
+span.time {
+	color:#03345F;
+	font-size:13px;
+	line-height:35px;
+	position:absolute;
+	right:12px;
+	top:2px;
+	white-space:nowrap;
+	z-index:10;
+}
+
+.inactive {
+	color:#CCC!important;
+}
+
+.videoBar {
+	background:#e4ab26;
+	background:-moz-linear-gradient(top,#e4ab26 0%,#febe2c 32%,#e4ab26 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e4ab26),color-stop(32%,#febe2c),color-stop(100%,#e4ab26));
+	background:-webkit-linear-gradient(top,#e4ab26 0%,#febe2c 32%,#e4ab26 100%);
+	background:-o-linear-gradient(top,#e4ab26 0%,#febe2c 32%,#e4ab26 100%);
+	background:-ms-linear-gradient(top,#e4ab26 0%,#febe2c 32%,#e4ab26 100%);
+	background:linear-gradient(to bottom,#e4ab26 0%,#febe2c 32%,#e4ab26 100%);
+}
+
+.musicBar {
+	background:#0097c3;
+	background:-moz-linear-gradient(top,#0097c3 0%,#00a9db 50%,#0097c3 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#0097c3),color-stop(50%,#00a9db),color-stop(100%,#0097c3));
+	background:-webkit-linear-gradient(top,#0097c3 0%,#00a9db 50%,#0097c3 100%);
+	background:-o-linear-gradient(top,#0097c3 0%,#00a9db 50%,#0097c3 100%);
+	background:-ms-linear-gradient(top,#0097c3 0%,#00a9db 50%,#0097c3 100%);
+	background:linear-gradient(to bottom,#0097c3 0%,#00a9db 50%,#0097c3 100%);
+}
+
+.gameBar {
+	background:#ff3a7b;
+	background:-moz-linear-gradient(top,#ff3a7b 0%,#e3336d 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ff3a7b),color-stop(100%,#e3336d));
+	background:-webkit-linear-gradient(top,#ff3a7b 0%,#e3336d 100%);
+	background:-o-linear-gradient(top,#ff3a7b 0%,#e3336d 100%);
+	background:-ms-linear-gradient(top,#ff3a7b 0%,#e3336d 100%);
+	background:linear-gradient(to bottom,#ff3a7b 0%,#e3336d 100%);
+}
+
+.bar.photoBar {
+	background:#509a3d;
+	background:-moz-linear-gradient(top,#509a3d 0%,#61b94a 50%,#509a3d 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#509a3d),color-stop(50%,#61b94a),color-stop(100%,#509a3d));
+	background:-webkit-linear-gradient(top,#509a3d 0%,#61b94a 50%,#509a3d 100%);
+	background:-o-linear-gradient(top,#509a3d 0%,#61b94a 50%,#509a3d 100%);
+	background:-ms-linear-gradient(top,#509a3d 0%,#61b94a 50%,#509a3d 100%);
+	background:linear-gradient(to bottom,#509a3d 0%,#61b94a 50%,#509a3d 100%);
+}
+
+.progressBarsOuter ul {
+	margin:0 auto 15px;
+	padding:0;
+}
+
+.progressBarsOuter ul li {
+	display:table-cell;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	position:relative;
+	width:1%;
+	text-align:center;
+}
+
+a.reset {
+	text-align:center;
+	font-size:24px;
+	text-transform:uppercase;
+	color:#212121;
+	text-decoration:none;
+}
+
+a.reset:before {
+	background:grey;
+	display:block;
+	height:111px;
+	margin:0 auto 5px;
+	width:120px;
+	content:"";
+	color:#939598;
+	display:table-cell;
+	font-size:16px;
+	margin:0;
+	padding:0;
+	text-align:center;
+	text-decoration:none;
+	text-transform:uppercase;
+}
+
+a.photo.reset:before {
+	background-position:left top;
+}
+
+a.photo.reset.active:before {
+	background-position:right top;
+}
+
+a.music.reset:before {
+	background-position:left -111px;
+}
+
+a.music.reset.active:before {
+	background-position:right -111px;
+}
+
+a.game.reset:before {
+	background-position:left bottom;
+}
+
+a.game.reset.active:before {
+	background-position:right bottom;
+}
+
+a.video.reset:before {
+	background-position:left -222px;
+}
+
+a.video.reset.active:before {
+	background-position:right -222px;
+}
+
+@media screen and (max-width: 500px) {
+	a.reset:before {
+		display:none;
+	}
+
+	a.reset {
+		font-size:18px;
+	}
+}
+</style>
+</head>
+<body>
+  <div class="container">
+  <div class="row">
+  		<div class="col-sm-8 col-sm-offset-2">
+  			<div class="progressBarsOuter">
+  				<ul>
+  					<li>
+  						<a class="photo reset active" data-desc="High Resolution Photo (2 MB)" href="#photo">Photos</a>
+  					</li>
+  					<li>
+  						<a class="music reset" data-desc="High Quality Music File (8 MB)" href="#music">Music</a>
+  					</li>
+  					<li>
+  						<a class="video reset" data-desc="30 Minute Video (500 MB)" href="#video">Videos</a>
+  					</li>
+  					<li>
+  						<a class="game reset" data-desc="Large Video Game (1 GB)" href="#game">Games</a>
+  					</li>
+  				</ul>
+
+  				<p>
+  					Compare our broadband speeds <small>(Click an icon to compare speeds)</small>
+  				</p>
+
+  				<div class="progressBars">
+  					<div class="progressContainer">
+  						<span class="speed">
+  							1 Gbps
+  						</span>
+  						<span class="time">
+  							.015 seconds
+  						</span>
+
+  						<div class="bar gameBar" data-speed="8500">
+  							<span>
+  								8 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar videoBar" data-speed="4250">
+  							<span>
+  								4 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar musicBar" data-speed="275">
+  							<span>
+  								.065 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar photoBar" data-speed="70">
+  							<span>
+  								.015 seconds
+  							</span>
+  						</div>
+  					</div>
+
+  					<div class="progressContainer">
+  						<span class="speed">
+  							100 Mbps
+  						</span>
+  						<span class="time">
+  							.16 seconds
+  						</span>
+
+  						<div class="bar gameBar" data-speed="31000">
+  							<span>
+  								1 minute 20 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar videoBar" data-speed="17500">
+  							<span>
+  								40 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar musicBar" data-speed="1100">
+  							<span>
+  								.64 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar photoBar" data-speed="280">
+  							<span>
+  								.16 seconds
+  							</span>
+  						</div>
+  					</div>
+
+  					<div class="progressContainer">
+  						<span class="speed">
+  							50 Mbps
+  						</span>
+  						<span class="time">
+  							.32 seconds
+  						</span>
+
+  						<div class="bar gameBar" data-speed="60000">
+  							<span>
+  								2 minutes 40 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar videoBar" data-speed="80000">
+  							<span>
+  								1 minutes 20 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar musicBar" data-speed="2000">
+  							<span>
+  								1.28 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar photoBar" data-speed="500">
+  							<span>
+  								.32 seconds
+  							</span>
+  						</div>
+  					</div>
+
+  					<div class="progressContainer">
+  						<span class="speed">
+  							10 Mbps
+  						</span>
+  						<span class="time">
+  							1.5 seconds
+  						</span>
+
+  						<div class="bar gameBar" data-speed="800000">
+  							<span>
+  								13 minutes 20 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar videoBar" data-speed="75000">
+  							<span>
+  								6 minutes 40 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar musicBar" data-speed="6000">
+  							<span>
+  								6.4 seconds
+  							</span>
+  						</div>
+
+  						<div class="bar photoBar" data-speed="1500">
+  							<span>
+  								1.6 seconds
+  							</span>
+  						</div>
+  					</div>
+
+  					<p class="description" id="idDownloadItem">
+  						High Resolution Photo (2 MB)
+  					</p>
+
+  					<p>
+  						<small>*Demo speeds increased for comparison, actual results may vary</small>
+  					</p>
+  				</div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="./js/speed-comparison.js"></script>
+</body>
+</html>
